@@ -1,0 +1,92 @@
+
+(005574) [14:06:26] % cd /home/debian/pmos/cache_git/pmaports; git remote -v
+origin	https://gitlab.com/postmarketOS/pmaports.git (fetch)
+origin	https://gitlab.com/postmarketOS/pmaports.git (push)
+(005574) [14:06:26] % cd /home/debian/pmos/cache_git/pmaports; git show origin/master:channels.cfg
+# Reference: https://postmarketos.org/channels.cfg
+[channels.cfg]
+recommended=edge
+
+[edge]
+description=Rolling release / Most devices / Occasional breakage: https://postmarketos.org/edge
+branch_pmaports=master
+branch_aports=master
+mirrordir_alpine=edge
+
+[v21.12]
+description=Latest release / Recommended for best stability
+branch_pmaports=v21.12
+branch_aports=3.15-stable
+mirrordir_alpine=v3.15
+
+[v21.06]
+description=Old release
+branch_pmaports=v21.06
+branch_aports=3.14-stable
+mirrordir_alpine=v3.14
+
+[v21.03]
+description=Old release (unsupported)
+branch_pmaports=v21.03
+branch_aports=3.13-stable
+mirrordir_alpine=v3.13
+
+[v20.05]
+description=Old release (unsupported)
+branch_pmaports=v20.05
+branch_aports=3.12-stable
+mirrordir_alpine=v3.12
+(005574) [14:06:27] Build is necessary for package 'linux-jeka-700rk8': No binary package available
+(005574) [14:06:27] (buildroot_armv7) calculate depends of devicepkg-dev, mesa-dri-gallium, mkbootimg, postmarketos-base (pmbootstrap -v for details)
+(005574) [14:06:27] (native) calculate depends of ccache-cross-symlinks, gcc-armv7, g++-armv7, crossdirect (pmbootstrap -v for details)
+(005574) [14:06:28] (buildroot_armv7) build armv7/linux-jeka-700rk8-3.0.36-r0.apk
+(005574) [14:06:28] (buildroot_armv7) % rm -rf /home/pmos/build
+(005574) [14:06:28] % sudo cp -rL /home/debian/pmos/cache_git/pmaports/device/testing/linux-jeka-700rk8/ /home/debian/pmos/chroot_buildroot_armv7/home/pmos/build
+(005574) [14:06:28] (buildroot_armv7) % chown -R pmos:pmos /home/pmos/build
+(005574) [14:06:28] % sudo umount /home/debian/pmos/chroot_buildroot_armv7/mnt/pmaports
+(005574) [14:06:29] % sudo mount --bind /home/debian/pmos/cache_git/pmaports /home/debian/pmos/chroot_buildroot_armv7/mnt/pmaports
+(005574) [14:06:29] (buildroot_armv7) % busybox su pmos -c HOME=/home/pmos mkdir -p /home/pmos/build
+(005574) [14:06:29] (buildroot_armv7) % busybox su pmos -c HOME=/home/pmos ln -sf /mnt/pmaports/.git /home/pmos/build/.git
+(005574) [14:06:29] (buildroot_armv7) % cd /home/pmos/build; busybox su pmos -c CARCH=armv7 SUDO_APK='abuild-apk --no-progress' PATH=/native/usr/lib/crossdirect/armv7:/usr/lib/ccache/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin HOME=/home/pmos abuild -D postmarketOS -d
+]0;abuild: linux-jeka-700rk8>>> linux-jeka-700rk8: Building pmos/linux-jeka-700rk8 3.0.36-r0 (using abuild 3.9.0-r0) started Wed, 05 Jan 2022 12:06:30 +0000
+>>> linux-jeka-700rk8: Checking sanity of /home/pmos/build/APKBUILD...
+>>> WARNING: linux-jeka-700rk8: No maintainer
+]0;>>> linux-jeka-700rk8: Cleaning up srcdir
+]0;>>> linux-jeka-700rk8: Cleaning up pkgdir
+>>> linux-jeka-700rk8: Fetching https://github.com/Sai-desu/kernel_rk2926
+>>> linux-jeka-700rk8: Fetching https://github.com/Sai-desu/kernel_rk2926
+>>> linux-jeka-700rk8: Checking sha512sums...
+kernel_rk2926: OK
+NOTE: /usr/bin/devicepkg_build is intended to be used inside of the build() function
+of a device package's APKBUILD only.
+ERROR: deviceinfo file missing!
+>>> ERROR: linux-jeka-700rk8: build failed
+]0;(005574) [14:06:31] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(005574) [14:06:31] NOTE: The failed command's output is above the ^^^ line in the log file: /home/debian/pmos/log.txt
+(005574) [14:06:31] ERROR: Command failed: (buildroot_armv7) % cd /home/pmos/build; busybox su pmos -c CARCH=armv7 SUDO_APK='abuild-apk --no-progress' PATH=/native/usr/lib/crossdirect/armv7:/usr/lib/ccache/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin HOME=/home/pmos abuild -D postmarketOS -d
+(005574) [14:06:31] See also: <https://postmarketos.org/troubleshooting>
+(005574) [14:06:31] Traceback (most recent call last):
+  File "/home/debian/.local/lib/python3.7/site-packages/pmb/__init__.py", line 49, in main
+    getattr(frontend, args.action)(args)
+  File "/home/debian/.local/lib/python3.7/site-packages/pmb/helpers/frontend.py", line 114, in build
+    args.strict, src=src):
+  File "/home/debian/.local/lib/python3.7/site-packages/pmb/build/_package.py", line 511, in package
+    skip_init_buildenv, src):
+  File "/home/debian/.local/lib/python3.7/site-packages/pmb/build/_package.py", line 202, in init_buildenv
+    depends, built = build_depends(args, apkbuild, depends_arch, strict)
+  File "/home/debian/.local/lib/python3.7/site-packages/pmb/build/_package.py", line 150, in build_depends
+    if package(args, depend, arch, strict=strict):
+  File "/home/debian/.local/lib/python3.7/site-packages/pmb/build/_package.py", line 516, in package
+    suffix, src)
+  File "/home/debian/.local/lib/python3.7/site-packages/pmb/build/_package.py", line 442, in run_abuild
+    pmb.chroot.user(args, cmd, suffix, "/home/pmos/build", env=env)
+  File "/home/debian/.local/lib/python3.7/site-packages/pmb/chroot/user.py", line 27, in user
+    output_return, check, {}, auto_init)
+  File "/home/debian/.local/lib/python3.7/site-packages/pmb/chroot/root.py", line 78, in root
+    disable_timeout)
+  File "/home/debian/.local/lib/python3.7/site-packages/pmb/helpers/run_core.py", line 346, in core
+    check_return_code(args, code, log_message)
+  File "/home/debian/.local/lib/python3.7/site-packages/pmb/helpers/run_core.py", line 219, in check_return_code
+    raise RuntimeError("Command failed: " + log_message)
+RuntimeError: Command failed: (buildroot_armv7) % cd /home/pmos/build; busybox su pmos -c CARCH=armv7 SUDO_APK='abuild-apk --no-progress' PATH=/native/usr/lib/crossdirect/armv7:/usr/lib/ccache/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin HOME=/home/pmos abuild -D postmarketOS -d
+
