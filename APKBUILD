@@ -14,7 +14,8 @@ depends="
 	postmarketos-base
 "
 makedepends="devicepkg-dev"
-source="https://github.com/Sai-desu/kernel_rk2926"
+source="https://github.com/Sai-desu/kernel_rk2926
+	deviceinfo"
 _repository="kernel_rk2926"
 _commit="9784e8ae02b6ad72b3b2b1afb8abfca60e82ef52"
 build() {
