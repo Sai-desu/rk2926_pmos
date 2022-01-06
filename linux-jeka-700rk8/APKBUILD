@@ -1,0 +1,56 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname="linux-jeka-700rk8"
+pkgdesc="rockchip Jeka JK700"
+pkgver=3.0.36
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="armv7"
+_carch="arm"
+options="!check !archcheck"
+_flavor="jeka700rk8"
+_outdir="out"
+makedepends="
+		bash
+		bc
+		bison
+		devicepkg-dev
+		flex
+		dtbtool
+		openssl-dev
+		perl
+"
+_repository="kernel_rk2926"
+_commit="9784e8ae02b6ad72b3b2b1afb8abfca60e82ef52"
+source="
+	https://github.com/Sai-desu/kernel_rk2926
+deviceinfo"
+prepare() {
+	default_prepare
+	. downstreamkernel_prepare
+}
+builddir="$srcdir/$_repository-$_commit"
+build() {
+	cd $builddir
+	unset LDFLAGS
+	if [ "${CC:0:5}" != "gcc4-" ]; then
+	CC="gcc4-$CC"
+	HOSTCC="gcc4-gcc"
+	CROSS_COMPILE="gcc4-$CROSS_COMPILE"
+	fi
+	make 0="$_outdir" Arch="$_carch" CC="${CC:-gcc}" \
+			KBUILD_BUILD_VERSION="$((pkgrel + 1))-postmarketOS"
+	dtbTool -s 2048 -p "scripts/dtc" -o "arch/arm/boot/dt.img" "arch/arm/boot"
+}
+
+package() {
+	dowstreamkernel_package "$builddir" "$pkgdir" "$_carch" \
+		"$_flavor" "$_outdir"
+	install -Dm644 "$builddir/arch/arm/boot/dt.img" \
+		"$pkgdir/boot/dt.img"
+}
+
+sha512sums="
+f0a81d2aa6e3b4e05233e84f87c54cd0d23d44759675af9342ad95bf44ed0c41e6d48f6030ddd0b601aca89a18ac4a63a2ef6f593a849f6c4ad3cc2b77146562  kernel_rk2926
+04eef49828055af740bb2b50b6e67f92b16133c295d73a14cbb51d97212d565dfb41f82e0b9f24384fe5c9ba54389dec19fc21def6cfb1fe641c28ae45dd986f  deviceinfo
+"
