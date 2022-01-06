@@ -1,7 +1,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname="device-jeka-700rk8"
 pkgdesc="rockchip Jeka JK700"
-pkgver=3.0.36
+pkgver=0.1
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -14,10 +14,8 @@ depends="
 	postmarketos-base
 "
 makedepends="devicepkg-dev"
-source="https://github.com/Sai-desu/kernel_rk2926
-	deviceinfo"
-_repository="kernel_rk2926"
-_commit="9784e8ae02b6ad72b3b2b1afb8abfca60e82ef52"
+source="deviceinfo"
+
 build() {
 	devicepkg_build $startdir $pkgname
 }
